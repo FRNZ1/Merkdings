@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Merkfähigkeitstrainer</title>
+    <title>Merkpfad – Mustertrainer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.fonts.inter.org/inter.css');
@@ -24,11 +24,33 @@
             background-color: #0f172a;
             color: #f1f5f9;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100dvh;
             transition: background-color 0.3s, color 0.3s;
             padding: 1rem;
+        }
+
+        .theme-control {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 0.6rem;
+        }
+
+        .theme-control label {
+            padding: 0.45rem 0.7rem;
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            border-radius: 999px;
+            background: rgba(30, 41, 59, 0.78);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+        }
+
+        .light-mode .theme-control label {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: #e2e8f0;
         }
 
         .main-card {
@@ -39,7 +61,7 @@
             width: 100%;
             max-width: 480px;
             box-sizing: border-box;
-            margin: auto;
+            margin: 0 auto;
         }
 
         /* Info- und Textfarben */
@@ -252,11 +274,167 @@
             background-color: rgba(255, 255, 255, 0.9);
         }
 
+        /* --- Muster-Hilfe --- */
+        .pattern-library {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            max-height: 58vh;
+            overflow-y: auto;
+            padding-right: 2px;
+        }
+
+        .pattern-card {
+            background: rgba(71, 85, 105, 0.55);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 12px;
+            padding: 9px;
+            transition: transform 0.15s, border-color 0.15s, background-color 0.15s;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(45, 212, 191, 0.7);
+        }
+
+        .pattern-card.hidden-pattern {
+            display: none;
+        }
+
+        .pattern-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 7px;
+        }
+
+        .pattern-mini-cell {
+            border-radius: 3px;
+            background: #64748b;
+            min-width: 0;
+            min-height: 0;
+        }
+
+        .pattern-mini-cell.active {
+            background: #1bc9b7;
+            box-shadow: 0 0 6px rgba(27, 201, 183, 0.55);
+        }
+
+        .pattern-name {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            background: transparent;
+            color: #f1f5f9;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 4px 3px;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .pattern-name:focus {
+            border-color: #2dd4bf;
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .pattern-number {
+            display: block;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.65rem;
+            margin-bottom: 2px;
+        }
+
+        .light-mode .pattern-card {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+
+        .light-mode .pattern-mini-cell {
+            background: #cbd5e1;
+        }
+
+        .light-mode .pattern-mini-cell.active {
+            background: #0f9f91;
+        }
+
+        .light-mode .pattern-name {
+            color: #1e293b;
+        }
+
+        .light-mode .pattern-name:focus {
+            background: #ffffff;
+        }
+
+        .pattern-group-card { padding: 12px; }
+
+        .pattern-group-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pattern-group-title-area {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .pattern-details-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(2, 6, 23, 0.72);
+        }
+
+        .pattern-details-dialog {
+            width: min(560px, 100%);
+            max-height: min(80dvh, 680px);
+            overflow: auto;
+            padding: 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            border-radius: 14px;
+            background: #172033;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+        }
+
+        .light-mode .pattern-details-dialog { background: #ffffff; }
+
+        .pattern-variant-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .pattern-variant {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4px;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.28);
+        }
+
+        .pattern-variant .pattern-mini-grid {
+            width: 52px;
+            height: 52px;
+            margin-bottom: 3px;
+        }
+
+        .light-mode .pattern-variant { background: #f1f5f9; }
+
         /* --- Mobile Fixes --- */
         @media (max-width: 640px) {
             body {
                 align-items: flex-start;
-                justify-content: center;
+                justify-content: flex-start;
                 min-height: 100dvh;
                 padding: 0.5rem;
             }
@@ -264,7 +442,7 @@
             .main-card {
                 width: 100%;
                 max-width: 95vw;
-                margin: auto;
+                margin: 0 auto;
             }
 
             .game-grid {
@@ -282,6 +460,21 @@
             #game-message {
                 font-size: 0.95rem;
             }
+
+            .pattern-library {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                max-height: 55vh;
+            }
+
+            .pattern-mini-grid {
+                width: 64px;
+                height: 64px;
+            }
+
+            .pattern-variant .pattern-mini-grid {
+                width: 46px;
+                height: 46px;
+            }
         }
     </style>
 
@@ -295,7 +488,7 @@
 <body class="dark-mode">
 
     <!-- Theme Switch -->
-    <div class="absolute top-4 left-4 z-20">
+    <div class="theme-control">
         <label for="theme-switch" class="flex items-center cursor-pointer theme-switch-label">
             <input id="theme-switch" type="checkbox" class="sr-only">
             <div class="relative">
@@ -308,7 +501,7 @@
     
     <!-- Hauptcontainer -->
     <div class="w-full main-card p-6 rounded-xl border">
-        <h1 class="text-3xl font-extrabold text-center mb-4 text-title">Gedächtnis-Sequenz-Trainer</h1>
+        <h1 class="text-3xl font-extrabold text-center mb-4 text-title">Merkpfad</h1>
         <p class="text-center text-sm mb-6 font-semibold text-subtitle">
             Merken Sie sich die <b>gesamte Musterabfolge</b> Phase für Phase. Das <b>Zeitlimit</b> gilt für die gesamte
             Runde.
@@ -356,26 +549,54 @@
             </p>
 
             <button id="strategy-button"
-                class="w-full py-2 px-4 mt-3 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:bg-gray-800 transition duration-150 ease-in-out hidden">
-                ✨ Gedächtnistipps anfordern
+                class="w-full py-2 px-4 mt-3 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:bg-gray-800 transition duration-150 ease-in-out">
+                💡 Hilfe
             </button>
 
             <div id="strategy-output" class="mt-4 p-4 rounded-lg text-sm text-left border strategy-output hidden">
-                <p class="font-bold mb-2 strategy-header">Gedächtnistipps:</p>
-                <div id="strategy-content" class="text-subtitle"></div>
-                <div id="loading-spinner" class="text-center hidden">
-                    <div class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em]"
-                        role="status"></div>
-                    <span class="ml-2 text-gray-400">Lade Tipps...</span>
+                <div class="flex items-center justify-between gap-3 mb-3">
+                    <div>
+                        <p class="font-bold strategy-header">Muster-Hilfe</p>
+                        <p class="text-xs text-subtitle mt-1">Unterkategorien zeigen ausschließlich dieselbe Form an einer anderen Position im 3×3-Feld.</p>
+                    </div>
+                    <button id="close-help-button" type="button"
+                        class="shrink-0 px-3 py-1 rounded-lg bg-gray-600 hover:bg-gray-500 text-white text-xs font-semibold">
+                        Schließen
+                    </button>
                 </div>
+
+                <div class="mb-3">
+                    <input id="pattern-search" type="search"
+                        class="w-full px-3 py-2 rounded-lg bg-slate-700 text-white placeholder-gray-400 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        placeholder="Grundmuster suchen …">
+                </div>
+
+                <p id="pattern-count" class="text-xs text-subtitle mb-3"></p>
+                <div id="pattern-library" class="pattern-library"></div>
             </div>
         </div>
 
         <p id="user-info" class="text-xs text-gray-500 mt-4 text-center"></p>
     </div>
 
-    
+    <!-- Detailfenster für ähnliche Muster -->
+    <div id="pattern-details-modal" class="pattern-details-modal hidden" role="dialog" aria-modal="true" aria-labelledby="pattern-details-title">
+        <div id="pattern-details-dialog" class="pattern-details-dialog">
+            <div class="flex items-center justify-between gap-3 mb-3">
+                <div>
+                    <p id="pattern-details-title" class="font-bold strategy-header">Ähnliche Muster</p>
+                    <p id="pattern-details-count" class="text-xs text-subtitle mt-1"></p>
+                </div>
+                <button id="close-pattern-details" type="button"
+                    class="shrink-0 px-3 py-1 rounded-lg bg-gray-600 hover:bg-gray-500 text-white text-xs font-semibold">
+                    Schließen
+                </button>
+            </div>
+            <div id="pattern-details-grid" class="pattern-variant-grid"></div>
+        </div>
+    </div>
 
+    
     <!-- Kompletter JavaScript-Block (bereinigt & lauffähig) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -607,66 +828,393 @@ onSnapshot(globalRef, (snap) => {
         const API_KEY = "";
         const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-        // Strategie-Anfrage (externes API - optional)
-        const requestStrategyTips = async () => {
-            const STRATEGY_BUTTON = document.getElementById('strategy-button');
-            const STRATEGY_OUTPUT = document.getElementById('strategy-output');
-            const STRATEGY_CONTENT = document.getElementById('strategy-content');
-            const LOADING_SPINNER = document.getElementById('loading-spinner');
+        // --- Muster-Hilfe ---
+        const PATTERN_NAMES_KEY = 'memoryTrainerPatternNames';
+        const PATTERN_NAMES_DOC_ID = 'pattern_names';
+        let patternNamesSaveTimer = null;
 
-            STRATEGY_BUTTON.disabled = true;
-            STRATEGY_OUTPUT.classList.remove('hidden');
-            STRATEGY_CONTENT.innerHTML = '';
-            LOADING_SPINNER.classList.remove('hidden');
+        const DEFAULT_PATTERN_NAMES = [
+            "Minus", "L-Ecke", "Pfeil", "Haken", "Winkel", "Kleine Treppe",
+            "Blitz", "Ecke", "Kralle", "Dach", "Turm", "Bogen",
+            "Stern", "Diamant", "Pfeilspitze", "I", "Klammer", "Raute",
+            "Hufeisen", "Doppelpfeil", "Welle", "Knick", "Brücke", "Fahne",
+            "Stufe", "Komet", "Schiff", "Vogel", "Schmetterling", "Krone",
+            "Pfeil nach oben", "Pfeil nach unten", "Pfeil nach links", "Pfeil nach rechts",
+            "Blatt", "Blume", "Dreizack", "Gabel", "Ypsilon", "V",
+            "L", "T", "U", "C", "S", "Z", "N",
+            "M", "W", "X", "Y", "K", "Viereck", "Dreipunkt",
+            "Diagonale", "Gegen-Diagonale", "Eckdreieck", "Mitte oben", "Mitte unten",
+            "Mitte links", "Mitte rechts", "Dreiecks-Pfeil", "Winkelhaken", "Schräg-Haken",
+            "Mini-Brücke", "Mini-Dach", "Mini-Turm", "Mini-Blitz", "Mini-Raute",
+            "Drei-Ecken", "Drei-Sterne", "Kleeblatt", "Bumerang", "Schleuder",
+            "Trident", "Zange", "Kreuzstück", "Kopf", "Fuß", "Flügel",
+            "Antenne", "Käfer", "Maus", "Fuchs", "Fisch", "Boot"
+        ];
 
-            const systemPrompt = "Sie sind ein freundlicher und motivierender Gedächtnistrainer. Geben Sie klare, umsetzbare Ratschläge, um das Arbeitsgedächtnis und die Sequenzierungsfähigkeit zu verbessern. Antworten Sie in prägnanten Absätzen auf Deutsch. Verwenden Sie Markdown für Formatierungen.";
-            const userQuery = "Welche Strategien gibt es, um sich eine Abfolge von 3x3-Quadratmustern in Phasen zu merken, bei denen die Reihenfolge der Klicks innerhalb der Phase nicht wichtig ist? Ich muss 3 Felder in der vorgegebenen Zeit anklicken, bevor ich zur nächsten Phase übergehe.";
+        const loadLocalPatternNames = () => {
+            try {
+                const saved = JSON.parse(localStorage.getItem(PATTERN_NAMES_KEY) || '{}');
+                return saved && typeof saved === 'object' ? saved : {};
+            } catch {
+                return {};
+            }
+        };
 
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-            };
+        let patternNames = loadLocalPatternNames();
 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+        const savePatternNamesLocal = () => {
+            localStorage.setItem(PATTERN_NAMES_KEY, JSON.stringify(patternNames));
+        };
+
+        const savePatternNamesToAccount = async () => {
+            savePatternNamesLocal();
+            if (!userId || !db) return;
 
             try {
-                const maxRetries = 3;
-                let attempt = 0;
-                let response;
+                const ref = doc(
+                    db, "artifacts", "memory-app", "users", userId,
+                    "memory_game_settings", PATTERN_NAMES_DOC_ID
+                );
+                await setDoc(ref, {
+                    names: patternNames,
+                    updatedAt: new Date().toISOString()
+                }, { merge: true });
+            } catch (error) {
+                console.error("Fehler beim Speichern der Musternamen:", error);
+            }
+        };
 
-                while (attempt < maxRetries) {
-                    const delay = Math.pow(2, attempt) * 1000;
-                    if (attempt > 0) await sleep(delay);
+        const savePatternNames = () => {
+            savePatternNamesLocal();
+            clearTimeout(patternNamesSaveTimer);
+            patternNamesSaveTimer = setTimeout(savePatternNamesToAccount, 350);
+        };
 
-                    response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
+        const loadPatternNamesFromAccount = async () => {
+            if (!userId || !db) return;
 
-                    if (response.ok) break;
-                    attempt++;
+            try {
+                const ref = doc(
+                    db, "artifacts", "memory-app", "users", userId,
+                    "memory_game_settings", PATTERN_NAMES_DOC_ID
+                );
+                const snap = await getDoc(ref);
 
-                    if (attempt === maxRetries) throw new Error(`API-Fehler nach ${maxRetries} Versuchen: ${response.status}`);
+                if (snap.exists() && snap.data().names) {
+                    patternNames = snap.data().names;
+                    savePatternNamesLocal();
+                } else {
+                    await savePatternNamesToAccount();
                 }
 
-                const result = await response.json();
-                const text = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Konnte keine Tipps generieren.";
-
-                const formattedText = text
-                    .replace(/\*\s/g, '• ')
-                    .replace(/\n\n/g, '<br><br>')
-                    .replace(/\n/g, '<br>');
-
-                STRATEGY_CONTENT.innerHTML = formattedText;
-
+                renderPatternLibrary();
             } catch (error) {
-                console.error("Fehler bei der Strategie-Anforderung:", error);
-                STRATEGY_CONTENT.innerHTML = "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.";
-            } finally {
-                LOADING_SPINNER.classList.add('hidden');
-                STRATEGY_BUTTON.disabled = false;
+                console.error("Fehler beim Laden der Musternamen:", error);
             }
+        };
+
+        const allThreeCellPatterns = () => {
+            const patterns = [];
+            for (const combo of itertoolsCombinations(9, 3)) patterns.push(combo);
+            return patterns;
+        };
+
+        function itertoolsCombinations(n, k) {
+            const result = [], current = [];
+            const walk = (start) => {
+                if (current.length === k) {
+                    result.push([...current]);
+                    return;
+                }
+                for (let i = start; i <= n - (k - current.length); i++) {
+                    current.push(i);
+                    walk(i + 1);
+                    current.pop();
+                }
+            };
+            walk(0);
+            return result;
+        }
+
+        const patternKey = (pattern) =>
+            [...pattern].sort((a, b) => a - b).join('-');
+
+        // Gleiche Grundform, wenn sie innerhalb des 3x3-Feldes nur verschoben wird.
+        const normalizeByTranslation = (pattern) => {
+            const points = pattern.map(i => ({
+                r: Math.floor(i / 3),
+                c: i % 3
+            }));
+            const minR = Math.min(...points.map(p => p.r));
+            const minC = Math.min(...points.map(p => p.c));
+
+            return points
+                .map(p => `${p.r - minR},${p.c - minC}`)
+                .sort()
+                .join('|');
+        };
+
+        const getPatternGroups = () => {
+            const groups = new Map();
+
+            allThreeCellPatterns().forEach(pattern => {
+                const key = normalizeByTranslation(pattern);
+                if (!groups.has(key)) groups.set(key, { key, variants: [] });
+                groups.get(key).variants.push(pattern);
+            });
+
+            return [...groups.values()];
+        };
+
+        // Die sechs bekannten Formen bleiben zuerst sichtbar. Rotationen werden
+        // derselben Kategorie zugeordnet; nur wirklich neue Formen erhalten ein
+        // weiteres Grundmuster.
+        const BASIC_PATTERN_DEFINITIONS = [
+            { name: 'Minus', key: '0,0|0,1|0,2' },
+            { name: 'Pfeil', key: '0,0|0,1|1,0' },
+            {
+                name: 'Treppe', key: '0,0|0,1|1,2',
+                relatedShapes: [
+                    { key: '0,0|1,0|2,1', label: 'gedrehte und gespiegelte Variante' },
+                    { key: '0,0|1,1|2,1', label: 'gedrehte und gespiegelte Variante' },
+                    { key: '0,1|0,2|1,0', label: 'gespiegelte Variante' },
+                    { key: '0,2|1,0|1,1', label: 'gedrehte und gespiegelte Variante' }
+                ]
+            },
+            // Bildvorlage: oben links, oben Mitte und unten links.
+            {
+                name: 'Winkel', key: '0,0|0,1|2,0',
+                relatedShapes: [
+                    { key: '0,0|0,1|2,1', label: 'gespiegelte Variante' },
+                    { key: '0,0|0,2|1,0', label: 'gedrehte und gespiegelte Variante' },
+                    { key: '0,0|2,0|2,1', label: 'gedrehte Variante' },
+                    { key: '0,2|1,0|1,2', label: 'gedrehte und gespiegelte Variante' }
+                ]
+            },
+            { name: 'I', key: '0,0|1,0|2,0' },
+            { name: 'T', key: '0,0|0,2|1,1' },
+            {
+                name: 'Blitz', key: '0,0|0,1|2,2',
+                relatedShapes: [
+                    { key: '0,0|1,0|2,2', label: 'ähnliche Variante' },
+                    { key: '0,0|1,2|2,2', label: 'gedrehte und gespiegelte Variante' },
+                    { key: '0,1|0,2|2,0', label: 'gespiegelte Variante' },
+                    { key: '0,2|2,0|2,1', label: 'gespiegelte Variante' }
+                ]
+            },
+            { name: 'Dreieck', key: '0,0|0,2|2,0' },
+            { name: 'Slash (/)', key: '0,0|1,1|2,2' },
+            { name: 'Hacke', key: '0,0|1,2|2,1' },
+            { name: 'V', key: '0,0|0,2|2,1' }
+        ];
+
+        const keyToPattern = (key) => key.split('|').map(cell => {
+            const [row, column] = cell.split(',').map(Number);
+            return row * 3 + column;
+        });
+
+        const getAdditionalGroupName = (key) => {
+            const shortPositions = ['OL', 'OM', 'OR', 'ML', 'MM', 'MR', 'UL', 'UM', 'UR'];
+            return `Punktform ${keyToPattern(key).map(index => shortPositions[index]).join('–')}`;
+        };
+
+        const rotateShapeKey = (key, turns) => {
+            let points = key.split('|').map(cell => cell.split(',').map(Number));
+            for (let turn = 0; turn < turns; turn++) {
+                points = points.map(([row, column]) => [column, -row]);
+            }
+            const minRow = Math.min(...points.map(([row]) => row));
+            const minColumn = Math.min(...points.map(([, column]) => column));
+            return points
+                .map(([row, column]) => `${row - minRow},${column - minColumn}`)
+                .sort()
+                .join('|');
+        };
+
+        const getBasicPatternGroups = () => {
+            const knownGroups = BASIC_PATTERN_DEFINITIONS.map(definition => ({
+                ...definition,
+                baseKey: definition.key,
+                representative: keyToPattern(definition.key),
+                rotationKeys: new Set([0, 1, 2, 3].map(turn => rotateShapeKey(definition.key, turn))),
+                relatedShapes: definition.relatedShapes || [],
+                variants: []
+            }));
+            const knownByKey = new Map(knownGroups.flatMap(group => [
+                [group.key, group],
+                ...group.relatedShapes.map(shape => [shape.key, group])
+            ]));
+            const additionalByRotation = new Map();
+
+            getPatternGroups().forEach(group => {
+                // Eine ausdrücklich benannte Form bleibt in ihrer eigenen Kategorie.
+                let category = knownByKey.get(group.key);
+                if (!category) {
+                    category = knownGroups.find(candidate => candidate.rotationKeys.has(rotateShapeKey(group.key, 0)));
+                }
+                if (!category) {
+                    const rotationKey = [0, 1, 2, 3]
+                        .map(turn => rotateShapeKey(group.key, turn))
+                        .sort()[0];
+                    category = additionalByRotation.get(rotationKey);
+                    if (!category) {
+                        category = {
+                            name: getAdditionalGroupName(group.key),
+                            key: group.key,
+                            baseKey: group.key,
+                            representative: keyToPattern(group.key),
+                            variants: []
+                        };
+                        additionalByRotation.set(rotationKey, category);
+                    }
+                }
+                category.variants.push(...group.variants);
+            });
+
+            return [...knownGroups.filter(group => group.variants.length), ...additionalByRotation.values()];
+        };
+
+        const getVariantName = (group, pattern) => {
+            const rows = pattern.map(index => Math.floor(index / 3));
+            const columns = pattern.map(index => index % 3);
+            const rowNames = ['oben', 'Mitte', 'unten'];
+            const columnNames = ['links', 'Mitte', 'rechts'];
+            const shapeKey = normalizeByTranslation(pattern);
+            const relatedShape = group.relatedShapes?.find(shape => shape.key === shapeKey);
+            const turns = [0, 1, 2, 3].find(turn => rotateShapeKey(group.baseKey, turn) === shapeKey) ?? 0;
+            const relatedNameSuffixes = {
+                'gespiegelte Variante': 'Spiegelung',
+                'gedrehte Variante': 'Drehung',
+                'gedrehte und gespiegelte Variante': 'Spiegeldrehung',
+                'ähnliche Variante': 'Verwandte Form'
+            };
+            const subpatternName = relatedShape
+                ? `${group.name}-${relatedNameSuffixes[relatedShape.label] || 'Variante'}`
+                : turns === 0
+                    ? group.name
+                    : `${group.name}-Drehung ${turns * 90}°`;
+            return `${subpatternName} · ${rowNames[Math.min(...rows)]} ${columnNames[Math.min(...columns)]}`;
+        };
+
+        const createMiniGrid = (pattern) => {
+            const grid = document.createElement('div');
+            grid.className = 'pattern-mini-grid';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'pattern-mini-cell';
+                if (pattern.includes(i)) cell.classList.add('active');
+                grid.appendChild(cell);
+            }
+            return grid;
+        };
+
+        const renderPatternLibrary = () => {
+            const library = document.getElementById('pattern-library');
+            const count = document.getElementById('pattern-count');
+            const search = document.getElementById('pattern-search');
+            if (!library) return;
+
+            const query = (search?.value || '').trim().toLocaleLowerCase('de-DE');
+            library.innerHTML = '';
+
+            const groups = getBasicPatternGroups();
+            let visible = 0;
+
+            groups.forEach((group, groupIndex) => {
+                const name = group.name;
+
+                if (query &&
+                    !name.toLocaleLowerCase('de-DE').includes(query)) return;
+
+                visible++;
+
+                const card = document.createElement('div');
+                card.className = 'pattern-card pattern-group-card';
+
+                const header = document.createElement('div');
+                header.className = 'pattern-group-header';
+                header.appendChild(createMiniGrid(group.representative));
+
+                const titleArea = document.createElement('div');
+                titleArea.className = 'pattern-group-title-area';
+
+                const number = document.createElement('span');
+                number.className = 'pattern-number';
+                number.textContent = `Grundmuster ${groupIndex + 1}`;
+
+                const title = document.createElement('p');
+                title.className = 'font-semibold text-sm text-title';
+                title.textContent = name;
+
+                titleArea.append(number, title);
+                header.appendChild(titleArea);
+
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className =
+                    'w-full mt-2 px-3 py-2 rounded-lg bg-slate-600 hover:bg-teal-700 text-white text-xs font-semibold transition';
+                toggle.textContent = `Ähnliche Muster ansehen (${group.variants.length})`;
+
+                toggle.addEventListener('click', () => openPatternDetails(group));
+
+                card.append(header, toggle);
+                library.appendChild(card);
+            });
+
+            if (count) count.textContent =
+                `${visible} Grundmuster – 84 Muster vollständig zugeordnet`;
+        };
+
+        const openPatternDetails = (group) => {
+            const modal = document.getElementById('pattern-details-modal');
+            const title = document.getElementById('pattern-details-title');
+            const count = document.getElementById('pattern-details-count');
+            const grid = document.getElementById('pattern-details-grid');
+            if (!modal || !title || !count || !grid) return;
+
+            title.textContent = `Ähnliche Muster: ${group.name}`;
+            count.textContent = `${group.variants.length} zugeordnete Muster`;
+            grid.innerHTML = '';
+
+            group.variants.forEach((pattern, variantIndex) => {
+                const variant = document.createElement('div');
+                variant.className = 'pattern-variant';
+                variant.appendChild(createMiniGrid(pattern));
+                const label = document.createElement('span');
+                label.className = 'pattern-number';
+                label.textContent = getVariantName(group, pattern);
+                variant.appendChild(label);
+                grid.appendChild(variant);
+            });
+
+            modal.classList.remove('hidden');
+            document.getElementById('close-pattern-details')?.focus();
+        };
+
+        const closePatternDetails = () => {
+            document.getElementById('pattern-details-modal')?.classList.add('hidden');
+        };
+
+        const openPatternHelp = () => {
+            const output = document.getElementById('strategy-output');
+            const button = document.getElementById('strategy-button');
+            output.classList.remove('hidden');
+            button.textContent = '💡 Hilfe schließen';
+            renderPatternLibrary();
+        };
+
+        const closePatternHelp = () => {
+            const output = document.getElementById('strategy-output');
+            const button = document.getElementById('strategy-button');
+            output.classList.add('hidden');
+            button.textContent = '💡 Hilfe';
+        };
+
+        const resetPatternNames = () => {
+            patternNames = {};
+            savePatternNamesLocal();
+            savePatternNamesToAccount();
+            renderPatternLibrary();
         };
 
         // Gitterzellen erstellen
@@ -734,8 +1282,7 @@ onSnapshot(globalRef, (snap) => {
             MESSAGE_ELEMENT.textContent = 'Merken Sie sich die Sequenz (Phase 1)...';
             TIME_BAR_CONTAINER.classList.remove('hidden');
 
-            document.getElementById('strategy-button').classList.add('hidden');
-            document.getElementById('strategy-output').classList.add('hidden');
+            closePatternHelp();
 
             gameState.sequence = generateSequence(gameState.numPhases, gameState.patternSize);
 
@@ -1069,7 +1616,7 @@ onSnapshot(globalRef, (snap) => {
         // Initialisierung auf load (einmalig, sauber)
         window.addEventListener('load', () => {
             createGrid();
-            initializeFirebase();
+            initializeFirebase().then(() => loadPatternNamesFromAccount());
             setupThemeSwitch();
 
             // Start: stoppe Idle und starte Spiel
@@ -1092,7 +1639,24 @@ onSnapshot(globalRef, (snap) => {
                 startGame();
             });
 
-            document.getElementById('strategy-button').addEventListener('click', requestStrategyTips);
+            document.getElementById('strategy-button').addEventListener('click', () => {
+                const output = document.getElementById('strategy-output');
+                if (output.classList.contains('hidden')) {
+                    openPatternHelp();
+                } else {
+                    closePatternHelp();
+                }
+            });
+
+            document.getElementById('close-help-button').addEventListener('click', closePatternHelp);
+            document.getElementById('pattern-search').addEventListener('input', renderPatternLibrary);
+            document.getElementById('close-pattern-details').addEventListener('click', closePatternDetails);
+            document.getElementById('pattern-details-modal').addEventListener('click', event => {
+                if (event.target === event.currentTarget) closePatternDetails();
+            });
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') closePatternDetails();
+            });
 
             // Idle gleich beim Laden starten
             startIdleAnimation();
@@ -1104,28 +1668,6 @@ onSnapshot(globalRef, (snap) => {
 
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
